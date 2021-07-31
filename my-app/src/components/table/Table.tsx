@@ -8,12 +8,12 @@ export function Table(props: TableProps) {
 		<table>
 			<thead>
 				<tr>
-					{props.headers?.map(h => <th>{h}</th>)}
+					{props.headers?.map((h, i) => <th key={i}>{h}</th>)}
 				</tr>
 			</thead>
 			<tbody>
 				{props.data?.map(({ id, symbol, name, price_usd }) => (
-					<tr onClick={() => props.onSelectRow(id)}>
+					<tr key={id} onClick={() => props.onSelectRow(id)}>
 						<td>{symbol}</td>
 						<td>{name}</td>
 						<td>{price_usd}</td>
