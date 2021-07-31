@@ -1,22 +1,23 @@
 import { call, takeEvery, put } from "redux-saga/effects";
 import Axios from "axios";
-import { sagaActions } from "./sagaActions";
+import { sagaActions } from './sagaActions'
+import { fetchCoins } from '../features/coin/coinSlice'
 
 let callAPI = async (options: any) => {
   return await Axios(options);
 };
 
-export function* fetchDataSaga() {
+export function* fetchCoinsSaga() {
   try {
     let result = yield call(() =>
-      callAPI({ url: "" })
+      callAPI({ url: "https://api.coinlore.net/api/tickers/" })
     );
-    //yield put(fetchData(result.data));
+    yield put(fetchCoins(result.data));
   } catch (e) {
-    yield put({ type: "TODO_FETCH_FAILED" });
+    yield put({ type: "COIN_FETCH_FAILED" });
   }
 }
 
 export default function* rootSaga() {
-  yield takeEvery(sagaActions.FETCH_DATA_SAGA, fetchDataSaga);
+  yield takeEvery(sagaActions.FETCH_COINS_SAGA, fetchCoinsSaga);
 }
