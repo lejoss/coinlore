@@ -3,9 +3,12 @@ type UserInputProps = {
 }
 export const UserInput = (props: UserInputProps) => {
 	return (
-		<label>
-			Search by Coin
-			<input type="text" value={props.value} onChange={props.onChange} />
-		</label>
+		<div style={{ padding: '1em' }}>
+			<label>
+				<strong>SEARCH COIN</strong>
+			<input style={{ margin: '0 1em'}} type="text" value={props.value} onChange={props.onChange} />
+			</label>
+		</div>
+
 	)
 }

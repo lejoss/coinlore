@@ -20,7 +20,7 @@ export const Pagination = ({
 				key={number}
 				id={number.toString()}
 				onClick={onChangePage}
-				style={{ color: highlightIndex === i ? '#7A7E83' : 'black' }}
+				style={{ color: highlightIndex === i ? '#7A7E83' : 'black', cursor: 'pointer' }}
 			>
 				{number}
 			</li>

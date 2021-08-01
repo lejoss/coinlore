@@ -9,15 +9,15 @@ export function Table(props: TableProps) {
 		<table className={props.className}>
 			<thead>
 				<tr>
-					{props.headers?.map((h, i) => <th key={i}>{h}</th>)}
+					{props.headers?.map((h, i) => <th style={{ color: 'steelblue' }} key={i}>{h}</th>)}
 				</tr>
 			</thead>
 			<tbody>
 				{props.data?.map(({ id, symbol, name, price_usd }) => (
-					<tr key={id} onClick={() => props.onSelectRow(id)}>
-						<td>{symbol}</td>
-						<td>{name}</td>
-						<td>{price_usd}</td>
+					<tr style={{ cursor: 'pointer', color: 'gray' }} key={id} onClick={() => props.onSelectRow(id)}>
+						<td><strong>{symbol}</strong></td>
+						<td><strong>{name}</strong></td>
+						<td><strong>${price_usd}</strong></td>
 					</tr>
 				))}
 			</tbody>
