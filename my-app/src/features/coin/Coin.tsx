@@ -1,7 +1,8 @@
 import React from 'react'
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppSelector, useAppDispatch, usePagination } from '../../app/hooks';
 import { sagaActions } from '../../app/sagaActions';
 import { Table } from '../../components/table/Table'
+import { Pagination } from '../pagination/pagination'
 import { CoinDetail } from '../../components/coin_detail/CoinDetail'
 import { coinSelector } from './coinSlice'
 
@@ -20,18 +21,31 @@ export type Coin = {
 export function CoinPage() {
 	const coins = useAppSelector(coinSelector)
 	const dispatch = useAppDispatch()
+	const { setPage, setPageNumbers, page, sliceCoins } = usePagination()
 	const [coin, setCoin] = React.useState(null)
-	const [foundCoins, setFoundCoins] = React.useState(coins)
+	const [foundCoins, setFoundCoins] = React.useState<any>([])
 	const [filterValue, setFilterValue] = React.useState('')
+	const [isFiltering, setIsFiltering] = React.useState(false)
 
+	const pageNumbers: number[] | undefined = setPageNumbers(coins)
+	const coinsToRender: any = isFiltering ? foundCoins : sliceCoins(coins)
+	
 	React.useEffect(() => {
 		dispatch({ type: sagaActions.FETCH_COINS_SAGA })
 	}, [dispatch])
-
+	
 	React.useEffect(() => {
 		if (!coins?.length) return
 		setFoundCoins(coins)
 	}, [coins])
+
+	React.useEffect(() => {
+		if (filterValue !== '') {
+			setIsFiltering(true)
+		} else  {
+			setIsFiltering(false)
+		}
+	}, [filterValue])
 
 	const handleOnSelectRow = (coinId: string) => {
 		const [coinFound] = coins.filter(({ id }) => id === coinId)
@@ -49,17 +63,18 @@ export function CoinPage() {
 		setFilterValue(value)
 	}
 
-	const Filters = ({ children }: { children: any }) => <div>{children}</div>
-	const Pagination = () => null
+	const handleChangePage = (e: any) => {
+		setPage(parseInt(e.target.id))
+	}
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 			<label>
 				<input type="text" value={filterValue} onChange={handleOnChangeFilterValue} />	
 			</label>
-			<Table data={foundCoins} headers={['SYMBOL', 'NAME', '$USD']} onSelectRow={handleOnSelectRow} />
+			<Table data={coinsToRender} headers={['SYMBOL', 'NAME', '$USD']} onSelectRow={handleOnSelectRow} />
 			<CoinDetail coin={coin}/>
-			<Pagination />
+			<Pagination pages={pageNumbers} onChangePage={handleChangePage} highlightIndex={page - 1} />
 		</div>
 	)
 }

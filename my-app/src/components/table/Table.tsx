@@ -1,5 +1,5 @@
 type TableProps = {
-	data: [],
+	data: any[] | null,
 	headers: string[],
 	onSelectRow: (coinId: string) => void
 }

@@ -12,8 +12,7 @@ export function* fetchCoinsSaga() {
     let result = yield call(() =>
       callAPI({ url: "https://api.coinlore.net/api/tickers/" })
     );
-    const coins = result?.data?.data?.slice(0, 10)
-    yield put(fetchCoins(coins));
+    yield put(fetchCoins(result?.data?.data));
   } catch (e) {
     yield put({ type: "COIN_FETCH_FAILED" });
   }
