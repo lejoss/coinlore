@@ -4,18 +4,19 @@ import styles from './Pagination.module.css'
 export const Pagination = ({
 	pages,
 	onChangePage,
-	highlightIndex
+	highlightIndex,
+	className,
 }:
 	{
 		pages: number[] | undefined,
 		onChangePage: React.MouseEventHandler,
-		highlightIndex: number
+		highlightIndex: number,
+		className: string
 	}) => {
 	const renderPageNumbers = pages?.map((number, i) => {
 		return (
 			<li
 				data-testid="list-pagination"
-				className="li"
 				key={number}
 				id={number.toString()}
 				onClick={onChangePage}
@@ -27,7 +28,7 @@ export const Pagination = ({
 	});
 
 	return (
-		<ul className={styles.ul}>
+		<ul className={className}>
 			{renderPageNumbers}
 		</ul>
 	)

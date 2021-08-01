@@ -1,0 +1,27 @@
+.card {
+	/* display: flex;
+	flex-direction: column; */
+	border: 2px solid lightgoldenrodyellow;
+	max-width: 700px;
+}
+.header {
+	border: 1px solid lightcyan;
+}
+.title {
+	margin: 0;
+	border: 1px solid limegreen;
+}
+.search {
+	border: 1px solid lightgreen;
+}
+.table {
+	border: 1px solid pink;
+}
+.footer {
+	margin: 0;
+	border: 1px solid steelblue;
+	display: flex;
+	list-style: none;
+	justify-content: space-around;
+	padding: 0;
+}

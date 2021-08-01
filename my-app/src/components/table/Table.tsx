@@ -1,11 +1,12 @@
 type TableProps = {
 	data: any[] | null,
 	headers: string[],
-	onSelectRow: (coinId: string) => void
+	onSelectRow: (coinId: string) => void,
+	className: string,
 }
 export function Table(props: TableProps) {
 	return (
-		<table>
+		<table className={props.className}>
 			<thead>
 				<tr>
 					{props.headers?.map((h, i) => <th key={i}>{h}</th>)}

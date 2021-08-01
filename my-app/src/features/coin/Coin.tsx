@@ -2,9 +2,12 @@ import React from 'react'
 import { useAppSelector, useAppDispatch, usePagination } from '../../app/hooks';
 import { sagaActions } from '../../app/sagaActions';
 import { Table } from '../../components/table/Table'
+import { UserInput } from '../../components/user_input/userInput'
+import { Title } from '../../components/title/title'
 import { Pagination } from '../pagination/pagination'
 import { CoinDetail } from '../../components/coin_detail/CoinDetail'
 import { coinSelector } from './coinSlice'
+import styles from './Coin.module.css'
 
 export type Coin = {
 	id: string,
@@ -29,11 +32,11 @@ export function CoinPage() {
 
 	const pageNumbers: number[] | undefined = setPageNumbers(coins)
 	const coinsToRender: any = isFiltering ? foundCoins : sliceCoins(coins)
-	
+
 	React.useEffect(() => {
 		dispatch({ type: sagaActions.FETCH_COINS_SAGA })
 	}, [dispatch])
-	
+
 	React.useEffect(() => {
 		if (!coins?.length) return
 		setFoundCoins(coins)
@@ -42,7 +45,7 @@ export function CoinPage() {
 	React.useEffect(() => {
 		if (filterValue !== '') {
 			setIsFiltering(true)
-		} else  {
+		} else {
 			setIsFiltering(false)
 		}
 	}, [filterValue])
@@ -68,13 +71,14 @@ export function CoinPage() {
 	}
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-			<label>
-				<input type="text" value={filterValue} onChange={handleOnChangeFilterValue} />	
-			</label>
-			<Table data={coinsToRender} headers={['SYMBOL', 'NAME', '$USD']} onSelectRow={handleOnSelectRow} />
-			<CoinDetail coin={coin}/>
-			<Pagination pages={pageNumbers} onChangePage={handleChangePage} highlightIndex={page - 1} />
+		<div className={styles.card}>
+			<header className={styles.header}>
+				<Title className={styles.title} text="coinlore" />
+				<UserInput value={filterValue} onChange={handleOnChangeFilterValue} />
+			</header>
+			<Table className={styles.table} data={coinsToRender} headers={['SYMBOL', 'NAME', '$USD']} onSelectRow={handleOnSelectRow} />
+			<CoinDetail coin={coin} />
+			<Pagination className={styles.footer} pages={pageNumbers} onChangePage={handleChangePage} highlightIndex={page - 1} />
 		</div>
 	)
 }
