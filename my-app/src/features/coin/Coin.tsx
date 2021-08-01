@@ -76,25 +76,25 @@ export function CoinPage() {
 						</div>
 					</>
 				: <>
-					<Table className={styles.table} data={coinsToRender} headers={['SYMBOL', 'NAME', '$USD']}>
-						{(rows: []) => {
-							return (
-								<>
-									{rows?.map(({ id, symbol, name, price_usd }) => {
-										return (
-											<tr style={{ cursor: 'pointer', color: 'gray' }} key={id} onClick={() => handleOnSelectRow(id)}>
-												<td><strong>{symbol}</strong></td>
-												<td><strong>{name}</strong></td>
-												<td><strong>${price_usd}</strong></td>
-											</tr>
-										)
-									})}
-								</>
-							)
+						<div style={{ padding: '1em 2em', background: 'white' }}>
+							<Table className={styles.table} data={coinsToRender} headers={['SYMBOL', 'NAME', '$USD']}>
+							{(rows: []) => {
+								return (
+									<>
+										{rows?.map(({ id, symbol, name, price_usd }) =>  (
+												<tr className={styles.row} style={{ cursor: 'pointer', color: 'gray' }} key={id} onClick={() => handleOnSelectRow(id)}>
+													<td><strong>{symbol}</strong></td>
+													<td><strong>{name}</strong></td>
+													<td><strong>${price_usd}</strong></td>
+												</tr>
+											))}
+									</>
+								)
 
-						}}
-					</Table>
-					<Pagination className={styles.footer} pages={pageNumbers} onChangePage={handleChangePage} highlightIndex={page - 1} />
+							}}
+						</Table>
+						</div>
+						<Pagination className={styles.footer} pages={pageNumbers} onChangePage={handleChangePage} highlightIndex={page - 1} />
 				</>
 			}
 
