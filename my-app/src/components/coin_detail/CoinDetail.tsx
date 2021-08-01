@@ -13,7 +13,7 @@ export type CoinDetailsProps = {
 }
 export function CoinDetail(props: CoinDetailsProps) {
 	return (
-		<div style={{ overflow: 'scroll' }}>
+		<div style={{ overflow: 'scroll', padding: '1em 2em', background: 'white'}}>
 			<Table
 				className={props.className}
 				data={[props.coin]}
