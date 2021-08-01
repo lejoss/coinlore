@@ -28,10 +28,9 @@ export function CoinPage() {
 	const [coin, setCoin] = React.useState(null)
 	const [foundCoins, setFoundCoins] = React.useState<any>([])
 	const [filterValue, setFilterValue] = React.useState('')
-	const [isFiltering, setIsFiltering] = React.useState(false)
 
 	const pageNumbers: number[] | undefined = setPageNumbers(coins)
-	const coinsToRender: any = isFiltering ? foundCoins : sliceCoins(coins)
+	const coinsToRender: any = filterValue !== '' ? foundCoins : sliceCoins(coins)
 
 	React.useEffect(() => {
 		dispatch({ type: sagaActions.FETCH_COINS_SAGA })
@@ -41,14 +40,6 @@ export function CoinPage() {
 		if (!coins?.length) return
 		setFoundCoins(coins)
 	}, [coins])
-
-	React.useEffect(() => {
-		if (filterValue !== '') {
-			setIsFiltering(true)
-		} else {
-			setIsFiltering(false)
-		}
-	}, [filterValue])
 
 	const handleOnSelectRow = (coinId: string) => {
 		const [coinFound] = coins.filter(({ id }) => id === coinId)
