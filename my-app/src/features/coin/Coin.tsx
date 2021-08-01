@@ -63,6 +63,7 @@ export function CoinPage() {
 		} else {
 			setFoundCoins(coins)
 		}
+		setCoin(null)
 		setFilterValue(value)
 	}
 
@@ -76,9 +77,36 @@ export function CoinPage() {
 				<Title className={styles.title} text="coinlore" />
 				<UserInput value={filterValue} onChange={handleOnChangeFilterValue} />
 			</header>
-			<Table className={styles.table} data={coinsToRender} headers={['SYMBOL', 'NAME', '$USD']} onSelectRow={handleOnSelectRow} />
-			<CoinDetail coin={coin} />
-			<Pagination className={styles.footer} pages={pageNumbers} onChangePage={handleChangePage} highlightIndex={page - 1} />
+			{coin
+				? <>
+						<CoinDetail className={styles.table} coin={coin} />
+						<div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0.5em', margin: '0 1em' }}>
+							<button style={{ padding: '0.5em', cursor: 'pointer', background: 'transparent', outline: '1px solid steelblue', border: 'none', borderRadius: 10, color: 'steelblue', fontWeight: 'bold' }} onClick={() => setCoin(null)}>BACK TO COINS</button>
+						</div>
+					</>
+				: <>
+					<Table className={styles.table} data={coinsToRender} headers={['SYMBOL', 'NAME', '$USD']}>
+						{(rows: []) => {
+							return (
+								<>
+									{rows?.map(({ id, symbol, name, price_usd }) => {
+										return (
+											<tr style={{ cursor: 'pointer', color: 'gray' }} key={id} onClick={() => handleOnSelectRow(id)}>
+												<td><strong>{symbol}</strong></td>
+												<td><strong>{name}</strong></td>
+												<td><strong>${price_usd}</strong></td>
+											</tr>
+										)
+									})}
+								</>
+							)
+
+						}}
+					</Table>
+					<Pagination className={styles.footer} pages={pageNumbers} onChangePage={handleChangePage} highlightIndex={page - 1} />
+				</>
+			}
+
 		</div>
 	)
 }

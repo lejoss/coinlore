@@ -1,10 +1,22 @@
 type TableProps = {
-	data: any[] | null,
+	data?: any[] | null | undefined,
 	headers: string[],
-	onSelectRow: (coinId: string) => void,
-	className: string,
+	className?: string,
+	children?: any,
 }
 export function Table(props: TableProps) {
+	const rows = props?.data?.map(({ id, rank, symbol, name, price_usd, percent_change_24h, market_cap_usd }) => {
+		return {
+			id,
+			rank,
+			symbol,
+			name,
+			price_usd,
+			percent_change_24h,
+			market_cap_usd
+		}
+	})
+
 	return (
 		<table className={props.className}>
 			<thead>
@@ -13,13 +25,7 @@ export function Table(props: TableProps) {
 				</tr>
 			</thead>
 			<tbody>
-				{props.data?.map(({ id, symbol, name, price_usd }) => (
-					<tr style={{ cursor: 'pointer', color: 'gray' }} key={id} onClick={() => props.onSelectRow(id)}>
-						<td><strong>{symbol}</strong></td>
-						<td><strong>{name}</strong></td>
-						<td><strong>${price_usd}</strong></td>
-					</tr>
-				))}
+				{props.children(rows)}
 			</tbody>
 		</table>
 	)
